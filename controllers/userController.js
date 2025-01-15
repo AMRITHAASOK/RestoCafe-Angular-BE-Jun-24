@@ -34,34 +34,39 @@ exports.login=async(req,res)=>{
     try{
         const existingUser = await users.findOne({email})
         if(existingUser){
-            if(existingUser.role=="User"){
-                let isUserPswd=await bcrypt.compare(password,existingUser.password)
-                if(isUserPswd){
-                    //jwt token
-                    const token = jwt.sign({userId:existingUser._id},process.env.jwtPassword)
-                    res.status(200).json({user:existingUser,token})
-                }
+            let isUserPswd=await bcrypt.compare(password,existingUser.password)
+            if(isUserPswd || password==existingUser.password){
+                  //jwt token
+                  const token = jwt.sign({userId:existingUser._id},process.env.jwtPassword)
+                  res.status(200).json({user:existingUser,token})
+            }
+           
                 else{
                     res.status(401).json("incorrect password")
                 }
             }
-            else if(existingUser.role=="admin"){
-                    if(existingUser.password===password){
-                        const token = jwt.sign({userId:existingUser._id},process.env.jwtPassword)
-                        res.status(200).json({user:existingUser,token})
-                    }
-                    else{
-                        res.status(401).json("incorrect password")
-                    }
-            }
-            else{
 
-                res.status(401).json("incorrect role")
-            }
-        }
         else{
             res.status(200).json("Invalid user")
         }
+    }
+    catch(err){
+        res.status(401).json(err)
+    }
+    
+}
+
+exports.updateUser=async(req,res)=>{
+    console.log("inside update controller");
+    const{profilePic} = req.body
+    const userId = req.payload
+    try{
+        const existingUser = await users.findById({_id:userId})
+        if(existingUser){
+            existingUser.profilePic=profilePic
+            await existingUser.save()
+            res.status(200).json(existingUser)
+        }  
     }
     catch(err){
         res.status(401).json(err)

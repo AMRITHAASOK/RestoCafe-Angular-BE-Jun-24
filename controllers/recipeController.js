@@ -22,3 +22,15 @@ exports.viewRecipe =async(req,res)=>{
         res.status(404).json("Error"+err)
     }
 }
+
+exports.relatedRecipe =async(req,res)=>{
+    console.log("Inside  related recipes");
+    const cuisine = req.query.cuisine
+    try{
+        const Recipe = await recipes.find({cuisine})
+        res.status(200).json(Recipe)
+    }
+    catch(err){
+        res.status(404).json("Error"+err)
+    }
+}
