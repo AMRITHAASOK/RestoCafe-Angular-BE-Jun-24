@@ -73,3 +73,16 @@ exports.updateUser=async(req,res)=>{
     }
     
 }
+
+
+exports.getAllUsers = async (req,res)=>{
+    console.log("Inside  get userss");
+    try{
+        const allUsers = await users.find({role:"User"})
+        res.status(200).json(allUsers)
+    }
+    catch(err){
+        res.status(404).json("Error"+err)
+    }
+    
+}

@@ -33,3 +33,15 @@ exports.addToDownload=async(req,res)=>{
         res.status(404).json("Error"+err)
     }
 }
+
+exports.getAllDownloads = async (req,res)=>{
+    console.log("Inside  get downloads");
+    try{
+        const allDownloads = await downloads.find()
+        res.status(200).json(allDownloads)
+    }
+    catch(err){
+        res.status(404).json("Error"+err)
+    }
+    
+}

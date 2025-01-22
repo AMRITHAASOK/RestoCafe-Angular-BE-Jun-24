@@ -32,4 +32,20 @@ router.delete('/deleteSavedRecipe/:id',jwtMiddleware,savedController.deleteSaveR
 
 router.post('/user/edit',jwtMiddleware,userController.updateUser)
 
+router.delete('/deleteRecipe/:id',jwtMiddleware,recipeController.deleteRecipe)
+
+router.get('/getAllUsers',userController.getAllUsers)
+
+router.get('/getAllDownloads',downloadController.getAllDownloads)
+
+router.get('/getAllFeedbacks',testimonyController.getAllFeedbacks)
+
+router.get('/updateFeedback/:id',testimonyController.updateFeedback)
+
+router.get('/getAllApprovedFeedbacks',testimonyController.getAllApprovedFeedBacks)
+
+router.post('/addRecipe',recipeController.addRecipe)
+
+router.put('/updateRecipe/:id',recipeController.updateRecipe)
+
 module.exports = router
